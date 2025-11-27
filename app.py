@@ -9,9 +9,6 @@ import numpy as np
 from deep_translator import GoogleTranslator
 
 
-translator = Translator()
-
-
 # ============================================================
 # CONFIG & PATHS
 # ============================================================
