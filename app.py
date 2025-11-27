@@ -159,6 +159,9 @@ with st.container():
             df[desc_col].str.contains(search_q, case=False, na=False) |
             df[desc_col].str.contains(terjemahan, case=False, na=False)
         ]
+    else:
+        filtered = df
+
     with col2:
         options = filtered[desc_col].unique().tolist()
         selected_name = st.selectbox("Pilih bahan:", options) if len(options) > 0 else None
