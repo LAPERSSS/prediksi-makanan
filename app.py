@@ -214,9 +214,6 @@ if st.session_state.selected_foods:
     # 🔥 FIX UTAMA: mapping totals → fitur model
     model_input = map_totals_ke_fitur_model(totals)
 
-    st.write("⛳ Mapping ke fitur model:")
-    st.json(model_input)
-
     if st.button("🔮 Prediksi Kesehatan Menu"):
         hasil = prediksi_kesehatan(model_input)
         st.success(f"**{hasil['Prediksi']}**")
