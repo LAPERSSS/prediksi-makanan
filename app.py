@@ -6,7 +6,8 @@ import streamlit as st
 import pandas as pd
 import joblib
 import numpy as np
-from googletrans import Translator
+from deep_translator import GoogleTranslator
+
 
 translator = Translator()
 
@@ -151,9 +152,10 @@ with st.container():
     if search_q:
         # translate Indo → English
         try:
-            terjemahan = translator.translate(search_q, src="id", dest="en").text
+            terjemahan = GoogleTranslator(source="id", target="en").translate(search_q)
         except:
-            terjemahan = search_q  # fallback kalau ada error
+            terjemahan = search_q
+
 
         # gabungkan dua pencarian: original + hasil translate
         filtered = df[
