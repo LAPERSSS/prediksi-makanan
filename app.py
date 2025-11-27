@@ -6,6 +6,10 @@ import streamlit as st
 import pandas as pd
 import joblib
 import numpy as np
+from googletrans import Translator
+
+translator = Translator()
+
 
 # ============================================================
 # CONFIG & PATHS
@@ -142,8 +146,23 @@ with st.container():
     st.subheader("🔍 Cari & Tambah Bahan")
     col1, col2 = st.columns([3,1])
     with col1:
-        search_q = st.text_input("Ketik nama bahan:", "")
-        filtered = df[df[desc_col].str.contains(search_q, case=False, na=False)] if search_q else df
+        search_q = st.text_input("Ketik nama bahan (Indonesia / Inggris):", "").strip()
+
+    if search_q:
+        # translate Indo → English
+        try:
+            terjemahan = translator.translate(search_q, src="id", dest="en").text
+        except:
+            terjemahan = search_q  # fallback kalau ada error
+
+        # gabungkan dua pencarian: original + hasil translate
+        filtered = df[
+            df[desc_col].str.contains(search_q, case=False, na=False) |
+            df[desc_col].str.contains(terjemahan, case=False, na=False)
+        ]
+    else:
+        filtered = df
+
         st.write(f"Menemukan {len(filtered)} hasil")
         preview_cols = [desc_col] + numeric_cols[:8]
         st.dataframe(filtered[preview_cols].head(10))
